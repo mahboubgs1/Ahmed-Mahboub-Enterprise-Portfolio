@@ -39,7 +39,7 @@ The included workflow exports and publishes automatically:
 Contact links are set in `app/portfolio-app.tsx`:
 
 - Email → `mahboub80@gmail.com`
-- LinkedIn → replace `REPLACE_WITH_MY_HANDLE` with your real LinkedIn handle
+- LinkedIn → `eng-ahmed-mahboub-1a79191a`
 - GitHub → `mahboubgs1`
 
 Update fictional figures in `app/portfolio-app.tsx`. Add an approved CV file under `public/` and link it from the landing page when ready.
