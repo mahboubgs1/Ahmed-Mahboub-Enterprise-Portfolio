@@ -1,6 +1,6 @@
 # Ahmed Mahboub — Enterprise Transformation Portfolio
 
-An executive portfolio for ERP Director and enterprise applications leadership opportunities. It presents ERP transformation, finance systems knowledge, executive analytics, digital transformation, and technology cost optimization through a polished interactive experience.
+An executive portfolio for Enterprise Applications Leader and digital transformation leadership opportunities. It presents ERP transformation, finance systems knowledge, executive analytics, digital transformation, and technology cost optimization through a polished interactive experience.
 
 ## Features
 
@@ -36,11 +36,11 @@ The included workflow exports and publishes automatically:
 
 ## Customize before publishing
 
-Search for `YOUR_` and replace:
+Contact links are set in `app/portfolio-app.tsx`:
 
-- `YOUR_EMAIL@example.com`
-- `YOUR-LINKEDIN`
-- `YOUR-GITHUB`
+- Email → `mahboub80@gmail.com`
+- LinkedIn → replace `REPLACE_WITH_MY_HANDLE` with your real LinkedIn handle
+- GitHub → `mahboubgs1`
 
 Update fictional figures in `app/portfolio-app.tsx`. Add an approved CV file under `public/` and link it from the landing page when ready.
 
