@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type View = "overview" | "ceo" | "finance" | "technology" | "cases";
 type Filter = { year: string; entity: string; department: string };
@@ -56,6 +56,144 @@ function DashboardHeader({title,eyebrow,filters,setFilters}:{title:string;eyebro
   </div></>;
 }
 
+type Lang = "en" | "ar";
+const STR = {
+  en: {
+    brand: "Enterprise Transformation",
+    nav: ["Overview", "Executive dashboard", "Finance", "Technology", "Case studies"],
+    cta: "Explore dashboard",
+    hero: {
+      eyebrow: "Enterprise Applications Leader · Digital Transformation",
+      h1a: "Turning enterprise complexity into ",
+      h1em: "measurable business value.",
+      p: "Executive technology leadership across ERP strategy, finance systems, decision intelligence, automation, and cost optimization—with 20+ years of cross-sector experience.",
+      primary: "View executive dashboard",
+      secondary: "Explore case studies",
+      cred: [["20+", "years"], ["3", "business entities"], ["ERP", "to board insight"]],
+    },
+    console: {
+      cockpit: "ENTERPRISE VALUE COCKPIT",
+      index: "Transformation value index",
+      mini: ["ERP adoption", "Automation", "License use"],
+      signal: "Executive signal",
+      signalText: "SAR 800K annual technology saving modeled",
+    },
+    about: {
+      eyebrow: "About",
+      h2: "Enterprise applications leader who builds, not just directs.",
+      p: "Enterprise Applications and Development leader with 20+ years turning ERP, finance, and automation investments into measurable business value. Currently IT Applications Manager at Red Sea Markets Co. (Red Sea Mall), Jeddah — owning the full application landscape across a three-entity group: Yardi Voyager ERP, SharePoint, Power BI, and Microsoft 365. Hands-on from ERP configuration and SQL/Power BI reporting to SPFx/TypeScript development and AI-enabled automation. MBA (GPA 4.92/5) and PhD candidate researching AI adoption in digital transformation.",
+    },
+    value: {
+      eyebrow: "Executive value architecture",
+      h2: "From core systems to board-level decisions",
+      p: "A leadership portfolio connecting technology investment to financial and operational outcomes.",
+      cards: [
+        ["01", "ERP Transformation", "Strategy, governance, implementation, integrations, adoption, and continuous optimization."],
+        ["02", "Finance Systems", "GL, Chart of Accounts, dimensions, budgeting, forecasting, P&L, and controls."],
+        ["03", "Decision Intelligence", "Executive KPI frameworks, Power BI thinking, automated reporting, and focused action."],
+        ["04", "Cost Optimization", "SaaS rationalization, role-based licensing, consolidation, workflow automation, and ROI."],
+      ],
+    },
+    featured: {
+      eyebrow: "Interactive portfolio",
+      h2: "Four lenses. One enterprise agenda.",
+      link: "Open analytics suite →",
+      cards: [
+        ["CEO LENS", "Executive business dashboard", "Revenue, profitability, transformation progress, and drill-down decision support.", "Explore dashboard ↗"],
+        ["CFO LENS", "Finance ERP knowledge", "Management P&L, COA hierarchy, budget variance, cost centers, and aging.", "Open finance view ↗"],
+        ["CIO LENS", "Technology value", "Application portfolio, license utilization, savings pipeline, and ROI calculator.", "Open technology view ↗"],
+      ],
+    },
+    expertise: {
+      eyebrow: "Enterprise capabilities",
+      h2: "Built at the intersection of business, finance, and technology",
+      items: [
+        ["ERP", "Yardi Voyager · Governance · Implementation · Optimization · Integration · Adoption"],
+        ["Finance", "GL · Chart of Accounts · AP/AR concepts · Budgeting · Forecasting · P&L"],
+        ["Analytics", "Power BI · KPI design · Data modeling · Executive reporting · Decision support"],
+        ["Transformation", "SharePoint DMS · Workflow automation · Change · Vendors · Stakeholders"],
+        ["Optimization", "SaaS rationalization · License utilization · Consolidation · ROI · Renewals"],
+      ],
+    },
+    contact: {
+      eyebrow: "Let’s connect",
+      h2: "Building enterprise systems that leaders can trust.",
+      email: "Email",
+    },
+    footer: {
+      tag: "ERP · Enterprise Applications · Digital Transformation",
+      disclaimer: "Portfolio data is fictional and for demonstration only. No confidential employer information is used.",
+    },
+  },
+  ar: {
+    brand: "التحول المؤسسي",
+    nav: ["نظرة عامة", "اللوحة التنفيذية", "المالية", "التقنية", "دراسات الحالة"],
+    cta: "استعرض اللوحة",
+    hero: {
+      eyebrow: "قائد تطبيقات المؤسسة · التحول الرقمي",
+      h1a: "نحوّل تعقيد المؤسسة إلى ",
+      h1em: "قيمة عملية قابلة للقياس.",
+      p: "قيادة تقنية تنفيذية عبر استراتيجية أنظمة ERP، والأنظمة المالية، وذكاء القرار، والأتمتة، وتحسين التكاليف — بخبرة تتجاوز 20 عامًا عبر قطاعات متعددة.",
+      primary: "عرض اللوحة التنفيذية",
+      secondary: "استعرض دراسات الحالة",
+      cred: [["+20", "سنة خبرة"], ["3", "كيانات تجارية"], ["ERP", "إلى رؤى المجلس"]],
+    },
+    console: {
+      cockpit: "قمرة قيادة قيمة المؤسسة",
+      index: "مؤشر قيمة التحول",
+      mini: ["تبنّي ERP", "الأتمتة", "استخدام التراخيص"],
+      signal: "إشارة تنفيذية",
+      signalText: "توفير تقني سنوي مقدّر بنحو 800 ألف ريال",
+    },
+    about: {
+      eyebrow: "نبذة",
+      h2: "قائد تطبيقات مؤسسية يبني بنفسه، لا يوجّه فقط.",
+      p: "قائد في تطبيقات المؤسسة والتطوير بخبرة تتجاوز 20 عامًا في تحويل استثمارات ERP والمالية والأتمتة إلى قيمة عملية قابلة للقياس. حاليًا مدير تطبيقات تقنية المعلومات في شركة أسواق البحر الأحمر (ريد سي مول) بجدة — مسؤول عن كامل منظومة التطبيقات عبر مجموعة من ثلاثة كيانات: نظام Yardi Voyager ERP، وSharePoint، وPower BI، وMicrosoft 365. عملي التنفيذ من إعداد ERP وتقارير SQL/Power BI إلى تطوير SPFx/TypeScript والأتمتة المدعومة بالذكاء الاصطناعي. حاصل على ماجستير إدارة الأعمال (معدل 4.92/5) ومرشّح لدرجة الدكتوراه في بحث تبنّي الذكاء الاصطناعي بالتحول الرقمي.",
+    },
+    value: {
+      eyebrow: "بنية القيمة التنفيذية",
+      h2: "من الأنظمة الأساسية إلى قرارات مجلس الإدارة",
+      p: "محفظة قيادية تربط الاستثمار التقني بالنتائج المالية والتشغيلية.",
+      cards: [
+        ["01", "تحويل أنظمة ERP", "الاستراتيجية، والحوكمة، والتنفيذ، والتكامل، والتبنّي، والتحسين المستمر."],
+        ["02", "الأنظمة المالية", "دفتر الأستاذ العام، وشجرة الحسابات، والأبعاد، والموازنة، والتنبؤ، وقوائم الأرباح والخسائر، والضوابط."],
+        ["03", "ذكاء القرار", "أطر مؤشرات الأداء التنفيذية، وتفكير Power BI، والتقارير الآلية، والإجراءات المركّزة."],
+        ["04", "تحسين التكاليف", "ترشيد SaaS، والترخيص حسب الدور، والدمج، وأتمتة سير العمل، والعائد على الاستثمار."],
+      ],
+    },
+    featured: {
+      eyebrow: "محفظة تفاعلية",
+      h2: "أربع عدسات. أجندة مؤسسية واحدة.",
+      link: "افتح جناح التحليلات ←",
+      cards: [
+        ["عدسة الرئيس التنفيذي", "لوحة الأعمال التنفيذية", "الإيرادات، والربحية، وتقدّم التحول، ودعم القرار بالتفصيل.", "استعرض اللوحة ↗"],
+        ["عدسة المدير المالي", "معرفة ERP المالية", "قائمة الأرباح والخسائر الإدارية، وهيكل شجرة الحسابات، وانحراف الموازنة، ومراكز التكلفة، والأعمار.", "افتح العرض المالي ↗"],
+        ["عدسة مدير التقنية", "قيمة التقنية", "محفظة التطبيقات، واستخدام التراخيص، وخط التوفير، وحاسبة العائد على الاستثمار.", "افتح عرض التقنية ↗"],
+      ],
+    },
+    expertise: {
+      eyebrow: "قدرات مؤسسية",
+      h2: "مبنيّة عند تقاطع الأعمال والمالية والتقنية",
+      items: [
+        ["ERP", "Yardi Voyager · الحوكمة · التنفيذ · التحسين · التكامل · التبنّي"],
+        ["المالية", "دفتر الأستاذ · شجرة الحسابات · مفاهيم المدينون/الدائنون · الموازنة · التنبؤ · الأرباح والخسائر"],
+        ["التحليلات", "Power BI · تصميم المؤشرات · نمذجة البيانات · التقارير التنفيذية · دعم القرار"],
+        ["التحول", "SharePoint DMS · أتمتة سير العمل · إدارة التغيير · المورّدون · أصحاب المصلحة"],
+        ["التحسين", "ترشيد SaaS · استخدام التراخيص · الدمج · العائد على الاستثمار · التجديدات"],
+      ],
+    },
+    contact: {
+      eyebrow: "لنتواصل",
+      h2: "نبني أنظمة مؤسسية يثق بها القادة.",
+      email: "البريد",
+    },
+    footer: {
+      tag: "ERP · تطبيقات المؤسسة · التحول الرقمي",
+      disclaimer: "بيانات المحفظة افتراضية ولأغراض العرض فقط. لا تُستخدم أي معلومات سرّية لجهة العمل.",
+    },
+  },
+} as const;
+
 export default function PortfolioApp(){
   const [view,setView]=useState<View>("overview");
   const [menuOpen,setMenuOpen]=useState(false);
@@ -71,32 +209,44 @@ export default function PortfolioApp(){
   const firstYear=annualSaving-calc.transition, threeYear=annualSaving*3-calc.transition;
   const payback=annualSaving?calc.transition/annualSaving*12:0, roi=calc.transition?threeYear/calc.transition*100:0;
   const nav=(next:View)=>{setView(next);setMenuOpen(false);setDrill([]);window.scrollTo({top:0,behavior:"smooth"});};
+  const [lang,setLang]=useState<Lang>("en");
+  useEffect(()=>{
+    const q=new URLSearchParams(window.location.search).get("lang");
+    let stored:string|null=null; try{stored=localStorage.getItem("lang");}catch{}
+    const init:Lang=q==="ar"||q==="en"?q:(stored==="ar"||stored==="en"?stored:"en");
+    setLang(init);
+  },[]);
+  useEffect(()=>{
+    document.documentElement.lang=lang;
+    document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+    try{localStorage.setItem("lang",lang);}catch{}
+  },[lang]);
+  const t=STR[lang];
+  const toggleLang=()=>{
+    const next:Lang=lang==="ar"?"en":"ar";
+    setLang(next);
+    try{const u=new URL(window.location.href);u.searchParams.set("lang",next);window.history.replaceState({},"",u);}catch{}
+  };
 
   return <main>
     <header className="site-header">
-      <button className="brand" onClick={()=>nav("overview")} aria-label="Ahmed Mahboub home"><span className="brand-mark">AM</span><span><b>Ahmed Mahboub</b><small>Enterprise Transformation</small></span></button>
+      <button className="brand" onClick={()=>nav("overview")} aria-label="Ahmed Mahboub home"><span className="brand-mark">AM</span><span><b>Ahmed Mahboub</b><small>{t.brand}</small></span></button>
       <button className="menu" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={()=>setMenuOpen(!menuOpen)}>☰</button>
       <nav className={menuOpen?"open":""} aria-label="Primary navigation">
-        {([["overview","Overview"],["ceo","Executive dashboard"],["finance","Finance"],["technology","Technology"],["cases","Case studies"]] as [View,string][]).map(([id,label])=><button key={id} onClick={()=>nav(id)} className={view===id?"active":""}>{label}</button>)}
+        {(["overview","ceo","finance","technology","cases"] as View[]).map((id,i)=><button key={id} onClick={()=>nav(id)} className={view===id?"active":""}>{t.nav[i]}</button>)}
       </nav>
-      <button className="header-cta" onClick={()=>nav("ceo")}>Explore dashboard <Icon name="arrow"/></button>
+      <button className="lang-toggle" onClick={toggleLang} aria-label="Switch language" title="العربية / English">{lang==="ar"?"EN":"ع"}</button>
+      <button className="header-cta" onClick={()=>nav("ceo")}>{t.cta} <Icon name="arrow"/></button>
     </header>
 
     {view==="overview"&&<>
-      <section className="hero"><div className="hero-copy"><span className="eyebrow">Enterprise Applications Leader · Digital Transformation</span><h1>Turning enterprise complexity into <em>measurable business value.</em></h1><p>Executive technology leadership across ERP strategy, finance systems, decision intelligence, automation, and cost optimization—with 20+ years of cross-sector experience.</p><div className="hero-actions"><button className="primary" onClick={()=>nav("ceo")}>View executive dashboard <Icon name="arrow"/></button><button className="secondary" onClick={()=>nav("cases")}>Explore case studies</button></div><div className="credentials"><span><b>20+</b> years</span><span><b>3</b> business entities</span><span><b>ERP</b> to board insight</span></div></div>
-      <div className="hero-console" aria-label="Executive value preview"><div className="console-head"><span>ENTERPRISE VALUE COCKPIT</span><DemoBadge/></div><div className="console-score"><span>Transformation value index</span><b>78<small>/100</small></b></div><div className="mini-grid">{[["ERP adoption",86],["Automation",78],["License use",95]].map(([l,v])=><div key={l as string}><small>{l}</small><b>{v}%</b><i style={{width:`${v}%`}}/></div>)}</div><div className="console-insight"><Icon name="insight"/><span><small>Executive signal</small><b>SAR 800K annual technology saving modeled</b></span></div></div></section>
-      <section className="section"><div className="section-heading"><span className="eyebrow">About</span><h2>Enterprise applications leader who builds, not just directs.</h2><p>Enterprise Applications and Development leader with 20+ years turning ERP, finance, and automation investments into measurable business value. Currently IT Applications Manager at Red Sea Markets Co. (Red Sea Mall), Jeddah — owning the full application landscape across a three-entity group: Yardi Voyager ERP, SharePoint, Power BI, and Microsoft 365. Hands-on from ERP configuration and SQL/Power BI reporting to SPFx/TypeScript development and AI-enabled automation. MBA (GPA 4.92/5) and PhD candidate researching AI adoption in digital transformation.</p></div></section>
-      <section className="section value-section"><div className="section-heading"><span className="eyebrow">Executive value architecture</span><h2>From core systems to board-level decisions</h2><p>A leadership portfolio connecting technology investment to financial and operational outcomes.</p></div><div className="value-grid">{[
-        ["01","ERP Transformation","Strategy, governance, implementation, integrations, adoption, and continuous optimization."],
-        ["02","Finance Systems","GL, Chart of Accounts, dimensions, budgeting, forecasting, P&L, and controls."],
-        ["03","Decision Intelligence","Executive KPI frameworks, Power BI thinking, automated reporting, and focused action."],
-        ["04","Cost Optimization","SaaS rationalization, role-based licensing, consolidation, workflow automation, and ROI."]
-      ].map(([n,t,d])=><article className="value-card" key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></article>)}</div></section>
-      <section className="section featured"><div className="section-heading split"><div><span className="eyebrow">Interactive portfolio</span><h2>Four lenses. One enterprise agenda.</h2></div><button className="text-link" onClick={()=>nav("ceo")}>Open analytics suite →</button></div><div className="portfolio-grid"><button className="feature-card major" onClick={()=>nav("ceo")}><span>CEO LENS</span><h3>Executive business dashboard</h3><p>Revenue, profitability, transformation progress, and drill-down decision support.</p><div className="fake-chart"><i/><i/><i/><i/><i/><i/></div><b>Explore dashboard ↗</b></button><button className="feature-card" onClick={()=>nav("finance")}><span>CFO LENS</span><h3>Finance ERP knowledge</h3><p>Management P&L, COA hierarchy, budget variance, cost centers, and aging.</p><b>Open finance view ↗</b></button><button className="feature-card" onClick={()=>nav("technology")}><span>CIO LENS</span><h3>Technology value</h3><p>Application portfolio, license utilization, savings pipeline, and ROI calculator.</p><b>Open technology view ↗</b></button></div></section>
-      <section className="section expertise"><div className="section-heading"><span className="eyebrow">Enterprise capabilities</span><h2>Built at the intersection of business, finance, and technology</h2></div><div className="expertise-grid">{[
-        ["ERP","Yardi Voyager · Governance · Implementation · Optimization · Integration · Adoption"],["Finance","GL · Chart of Accounts · AP/AR concepts · Budgeting · Forecasting · P&L"],["Analytics","Power BI · KPI design · Data modeling · Executive reporting · Decision support"],["Transformation","SharePoint DMS · Workflow automation · Change · Vendors · Stakeholders"],["Optimization","SaaS rationalization · License utilization · Consolidation · ROI · Renewals"]
-      ].map(([t,d])=><article key={t}><h3>{t}</h3><p>{d}</p></article>)}</div></section>
-      <section className="contact"><div><span className="eyebrow">Let’s connect</span><h2>Building enterprise systems that leaders can trust.</h2></div><div className="contact-links"><a href="mailto:mahboub80@gmail.com">Email <span>↗</span></a><a href="https://www.linkedin.com/in/eng-ahmed-mahboub-1a79191a" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a><a href="https://github.com/mahboubgs1" target="_blank" rel="noreferrer">GitHub <span>↗</span></a></div></section>
+      <section className="hero"><div className="hero-copy"><span className="eyebrow">{t.hero.eyebrow}</span><h1>{t.hero.h1a}<em>{t.hero.h1em}</em></h1><p>{t.hero.p}</p><div className="hero-actions"><button className="primary" onClick={()=>nav("ceo")}>{t.hero.primary} <Icon name="arrow"/></button><button className="secondary" onClick={()=>nav("cases")}>{t.hero.secondary}</button></div><div className="credentials">{t.hero.cred.map((c,i)=><span key={i}><b>{c[0]}</b> {c[1]}</span>)}</div></div>
+      <div className="hero-console" aria-label="Executive value preview"><div className="console-head"><span>{t.console.cockpit}</span><DemoBadge/></div><div className="console-score"><span>{t.console.index}</span><b>78<small>/100</small></b></div><div className="mini-grid">{t.console.mini.map((l,i)=><div key={i}><small>{l}</small><b>{[86,78,95][i]}%</b><i style={{width:`${[86,78,95][i]}%`}}/></div>)}</div><div className="console-insight"><Icon name="insight"/><span><small>{t.console.signal}</small><b>{t.console.signalText}</b></span></div></div></section>
+      <section className="section"><div className="section-heading"><span className="eyebrow">{t.about.eyebrow}</span><h2>{t.about.h2}</h2><p>{t.about.p}</p></div></section>
+      <section className="section value-section"><div className="section-heading"><span className="eyebrow">{t.value.eyebrow}</span><h2>{t.value.h2}</h2><p>{t.value.p}</p></div><div className="value-grid">{t.value.cards.map(([n,ti,d])=><article className="value-card" key={n}><span>{n}</span><h3>{ti}</h3><p>{d}</p></article>)}</div></section>
+      <section className="section featured"><div className="section-heading split"><div><span className="eyebrow">{t.featured.eyebrow}</span><h2>{t.featured.h2}</h2></div><button className="text-link" onClick={()=>nav("ceo")}>{t.featured.link}</button></div><div className="portfolio-grid"><button className="feature-card major" onClick={()=>nav("ceo")}><span>{t.featured.cards[0][0]}</span><h3>{t.featured.cards[0][1]}</h3><p>{t.featured.cards[0][2]}</p><div className="fake-chart"><i/><i/><i/><i/><i/><i/></div><b>{t.featured.cards[0][3]}</b></button><button className="feature-card" onClick={()=>nav("finance")}><span>{t.featured.cards[1][0]}</span><h3>{t.featured.cards[1][1]}</h3><p>{t.featured.cards[1][2]}</p><b>{t.featured.cards[1][3]}</b></button><button className="feature-card" onClick={()=>nav("technology")}><span>{t.featured.cards[2][0]}</span><h3>{t.featured.cards[2][1]}</h3><p>{t.featured.cards[2][2]}</p><b>{t.featured.cards[2][3]}</b></button></div></section>
+      <section className="section expertise"><div className="section-heading"><span className="eyebrow">{t.expertise.eyebrow}</span><h2>{t.expertise.h2}</h2></div><div className="expertise-grid">{t.expertise.items.map(([ti,d])=><article key={ti}><h3>{ti}</h3><p>{d}</p></article>)}</div></section>
+      <section className="contact"><div><span className="eyebrow">{t.contact.eyebrow}</span><h2>{t.contact.h2}</h2></div><div className="contact-links"><a href="mailto:mahboub80@gmail.com">{t.contact.email} <span>↗</span></a><a href="https://www.linkedin.com/in/eng-ahmed-mahboub-1a79191a" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a><a href="https://github.com/mahboubgs1" target="_blank" rel="noreferrer">GitHub <span>↗</span></a></div></section>
     </>}
 
     {view==="ceo"&&<section className="dashboard-shell"><DashboardHeader title="Enterprise Performance Cockpit" eyebrow="CEO & Board view" filters={filters} setFilters={setFilters}/>
@@ -126,6 +276,6 @@ export default function PortfolioApp(){
       ["04","Digital Transformation","Replace fragmented manual work with governed digital flow.","SharePoint DMS · Approvals · Reporting · Integration",["Design document taxonomy and ownership","Digitize high-volume approval journeys","Automate reporting and exception visibility","Lead change, adoption, and service improvement"],"Illustrative outcome: better traceability, shorter cycle time, and stronger adoption."]
     ].map(([n,t,lead,tags,steps,outcome])=><article className="case-card" key={n as string}><span className="case-number">{n}</span><h2>{t}</h2><p className="case-lead">{lead}</p><small>{tags}</small><ol>{(steps as string[]).map(x=><li key={x}><Icon name="check"/>{x}</li>)}</ol><p className="outcome">{outcome}</p></article>)}</div><div className="case-cta"><div><span className="eyebrow">See the thinking in action</span><h2>Explore the interactive executive analytics suite.</h2></div><button className="primary" onClick={()=>nav("ceo")}>Open executive dashboard <Icon name="arrow"/></button></div></section>}
 
-    <footer><div><b>Ahmed Mahboub</b><span>ERP · Enterprise Applications · Digital Transformation</span></div><p>Portfolio data is fictional and for demonstration only. No confidential employer information is used.</p><span>© 2026</span></footer>
+    <footer><div><b>Ahmed Mahboub</b><span>{t.footer.tag}</span></div><p>{t.footer.disclaimer}</p><span>© 2026</span></footer>
   </main>;
 }
