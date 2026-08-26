@@ -7,26 +7,26 @@ const ogImage = `${siteUrl}/og.png`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Ahmed Mahboub | Enterprise Transformation Portfolio",
+  title: "أحمد محبوب | ملف التحول المؤسسي",
   description:
-    "ERP leadership, finance systems, executive analytics, digital transformation, and technology cost optimization.",
+    "قيادة أنظمة ERP، والأنظمة المالية، والتحليلات التنفيذية، والتحول الرقمي، وتحسين التكاليف التقنية.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
   openGraph: {
-    title: "Ahmed Mahboub | Enterprise Transformation Portfolio",
+    title: "أحمد محبوب | ملف التحول المؤسسي",
     description:
-      "Turning ERP, finance, analytics, and technology investments into measurable business value.",
+      "تحويل استثمارات ERP والمالية والتحليلات والتقنية إلى قيمة عملية قابلة للقياس.",
     type: "website",
     url: siteUrl,
     images: [{ url: ogImage, width: 1672, height: 941 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ahmed Mahboub | Enterprise Transformation Portfolio",
+    title: "أحمد محبوب | ملف التحول المؤسسي",
     description:
-      "ERP leadership, finance systems, executive analytics, and technology value.",
+      "قيادة ERP والأنظمة المالية والتحليلات التنفيذية والقيمة التقنية.",
     images: [ogImage],
   },
 };
@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <body>{children}</body>
     </html>
   );

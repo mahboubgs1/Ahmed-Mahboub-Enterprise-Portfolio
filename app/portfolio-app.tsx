@@ -341,11 +341,11 @@ export default function PortfolioApp(){
   const firstYear=annualSaving-calc.transition, threeYear=annualSaving*3-calc.transition;
   const payback=annualSaving?calc.transition/annualSaving*12:0, roi=calc.transition?threeYear/calc.transition*100:0;
   const nav=(next:View)=>{setView(next);setMenuOpen(false);setDrill([]);window.scrollTo({top:0,behavior:"smooth"});};
-  const [lang,setLang]=useState<Lang>("en");
+  const [lang,setLang]=useState<Lang>("ar");
   useEffect(()=>{
     const q=new URLSearchParams(window.location.search).get("lang");
     let stored:string|null=null; try{stored=localStorage.getItem("lang");}catch{}
-    const init:Lang=q==="ar"||q==="en"?q:(stored==="ar"||stored==="en"?stored:"en");
+    const init:Lang=q==="ar"||q==="en"?q:(stored==="ar"||stored==="en"?stored:"ar");
     setLang(init);
   },[]);
   useEffect(()=>{
@@ -368,7 +368,7 @@ export default function PortfolioApp(){
       <nav className={menuOpen?"open":""} aria-label="Primary navigation">
         {(["overview","ceo","finance","technology","cases"] as View[]).map((id,i)=><button key={id} onClick={()=>nav(id)} className={view===id?"active":""}>{t.nav[i]}</button>)}
       </nav>
-      <button className="lang-toggle" onClick={toggleLang} aria-label="Switch language" title="العربية / English">{lang==="ar"?"EN":"ع"}</button>
+      <button className="lang-toggle" onClick={toggleLang} aria-label="Switch language" title="العربية / English">{lang==="ar"?"EN":"عربي"}</button>
       <button className="header-cta" onClick={()=>nav("ceo")}>{t.cta} <Icon name="arrow"/></button>
     </header>
 
