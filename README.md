@@ -55,3 +55,5 @@ Update fictional figures in `app/portfolio-app.tsx`. Add an approved CV file und
 ## Privacy and accuracy
 
 Career statements avoid unsupported quantified claims. Portfolio outcomes are marked illustrative or demo unless they reflect approved experience evidence.
+
+<!-- deploy nudge 20260826T153259Z -->
